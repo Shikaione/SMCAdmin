@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">SMC-Admin</string>
+
+    <!--  Provisory strings -->
+    <string name="logName">Your Name Here</string>
+    <string name="userEmail">YourEmail@here.com</string>
+
+    <!-- Navigation strings -->
+    <string name="account">Account</string>
+    <string name="place">Your Place</string>
+    <string name="notification">Notifications</string>
+    <string name="logout">Logout</string>
+    <string name="orSeparator">or</string>
+</resources>

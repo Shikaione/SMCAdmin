@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "97006559890",
+    "firebase_url": "https://mpetroiu-smc.firebaseio.com",
+    "project_id": "mpetroiu-smc",
+    "storage_bucket": "mpetroiu-smc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97006559890:android:1f429271c753c202",
+        "android_client_info": {
+          "package_name": "com.mpetroiu.smc_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97006559890-eukdcrtihs2b8to2j37l488p4vbmjg83.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mpetroiu.smc_admin",
+            "certificate_hash": "bf18a871a215d8c66762b198014e644be3f3b1aa"
+          }
+        },
+        {
+          "client_id": "97006559890-pf2ldfqgiipvh63jjp4huu8b547n3fag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0MLteGiWfujjlVMdNwJ80f2s4iMLnaUo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97006559890-pf2ldfqgiipvh63jjp4huu8b547n3fag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
