@@ -12,9 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
@@ -25,6 +33,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mAuth = FirebaseAuth.getInstance();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         View header = findViewById(R.id.nav_view);
 
@@ -84,9 +100,8 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(MainActivity.this, "See you again ! ", Toast.LENGTH_SHORT).show();
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 startActivity(new Intent(MainActivity.this, LoginOptions.class));
-                                // mAuth.signOut();
-                                //  mGoogleSignInClient.signOut();
-                                //  LoginManager.getInstance().logOut();
+                                mAuth.signOut();
+                                mGoogleSignInClient.signOut();
                                 finish();
                                 return true;
                         }

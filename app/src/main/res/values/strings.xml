@@ -11,4 +11,19 @@
     <string name="notification">Notifications</string>
     <string name="logout">Logout</string>
     <string name="orSeparator">or</string>
+
+    <!-- Login Dialog -->
+    <string name="login">Login</string>
+    <string name="welcome">Welcome</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <!-- Toast-->
+    <string name="success_login">Successful Login!</string>
+    <string name="failed_login">Please fill any empty fields!</string>
+    <string name="login_with_email">Login with Email</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="register">Create Account</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="new_here">New Here?</string>
 </resources>
