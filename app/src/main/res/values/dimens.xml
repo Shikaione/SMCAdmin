@@ -2,5 +2,7 @@
 <resources>
     <dimen name="navigation_drawer_header_margin">41dp</dimen>
     <dimen name="status_bar_height">0dp</dimen>
+    <dimen name="padding_account_button">45dp</dimen>
+    <dimen name="padding_layout_login">20dp</dimen>
     <bool name="fitsSystemWindows">true</bool>
 </resources>

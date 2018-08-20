@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "97006559890-eukdcrtihs2b8to2j37l488p4vbmjg83.apps.googleusercontent.com",
+          "client_id": "97006559890-r0mbj80ollv4cm66ogscqt699if4vrt9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mpetroiu.smc_admin",
-            "certificate_hash": "bf18a871a215d8c66762b198014e644be3f3b1aa"
+            "certificate_hash": "08e10b2ccef6486273be5b35d791d767c02e0d72"
           }
         },
         {
