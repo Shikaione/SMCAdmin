@@ -95,6 +95,15 @@ public class LoginOptions extends AppCompatActivity {
                 signIn();
             }
         });
+
+        Button mRegister = (Button) findViewById(R.id.register);
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginOptions.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

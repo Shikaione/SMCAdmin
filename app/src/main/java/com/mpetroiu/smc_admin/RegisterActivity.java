@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     private EditText mEmail, mVerifyEmail, mPassword, mVerifyPassword, mName, mCompany, mType;
     @Override
@@ -32,16 +35,17 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mName = (EditText) findViewById(R.id.);
-        mEmail = (EditText) findViewById(R.id.);
-        mVerifyEmail = (EditText) findViewById(R.id.);
-        mCompany = (EditText) findViewById(R.id.);
-        mType = (EditText) findViewById(R.id.);
-        mPassword = (EditText) findViewById(R.id.);
-        mVerifyPassword = (EditText) findViewById(R.id.);
+        mName = (EditText) findViewById(R.id.etName);
+        mEmail = (EditText) findViewById(R.id.etEmail);
+        mVerifyEmail = (EditText) findViewById(R.id.etVerifyEmail);
+        mCompany = (EditText) findViewById(R.id.etCompany);
+        mType = (EditText) findViewById(R.id.etType);
+        mPassword = (EditText) findViewById(R.id.etPassword);
+        mVerifyPassword = (EditText) findViewById(R.id.etVerifyPassword);
 
-        Button mCreate = (Button) findViewById(R.id.);
+        Button mCreate = (Button) findViewById(R.id.create_account_button);
         mCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +66,23 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
+
+                            String name = mName.getText().toString();
+                            String email = mEmail.getText().toString();
+                            String company = mCompany.getText().toString();
+                            String type = mType.getText().toString();
+
+                            mDatabase = mDatabase.child("users");
+
+                            Map<String, String> userMap = new HashMap<>();
+
+                            userMap.put("name", name);
+                            userMap.put("email", email);
+                            userMap.put("company", company);
+                            userMap.put("type", type);
+
+                            mDatabase.setValue(userMap);
+
                             startActivity(new Intent(RegisterActivity.this, LoginOptions.class));
                         } else {
                             // If sign in fails, display a message to the user.
@@ -121,4 +142,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         return valid;
     }
+
+
 }

@@ -3,12 +3,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NotificationsFragment">
+    android:background="@color/fragmentBackground"
+    tools:context=".PlaceFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/padding_layout_login"
+        android:paddingRight="@dimen/padding_layout_login"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvNotification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/tvNotification"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:hint="@string/owner"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etNotificationMessage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:hint="@string/email"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/sendNotification"
+            style="@style/account_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/send_notification" />
+
+
+    </LinearLayout>
 
 </FrameLayout>

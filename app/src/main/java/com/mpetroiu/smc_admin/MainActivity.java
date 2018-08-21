@@ -2,6 +2,8 @@ package com.mpetroiu.smc_admin;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ActionBar mActionBar;
     private NavigationView mNavigationView;
+    private FrameLayout mFrame;
+
+    private AccountFragment mAccountFragment;
+    private PlaceFragment mPlaceFragment;
+    private NotificationsFragment mNotificationsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
         setupNavigationDrawerContent(mNavigationView);
 
         View headerView = mNavigationView.getHeaderView(0);
+
+        mFrame = findViewById(R.id.main_frame);
+
+        mAccountFragment = new AccountFragment();
+        mPlaceFragment = new PlaceFragment();
+        mNotificationsFragment = new NotificationsFragment();
+
+        setFragment(mPlaceFragment);
     }
 
     @Override
@@ -74,29 +90,34 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupNavigationDrawerContent(NavigationView navigationView) {
+    private void setupNavigationDrawerContent(final NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
+                        int id = menuItem.getItemId();
+
+                        switch (id) {
                             case R.id.account:
-                                menuItem.setChecked(true);
+                                setFragment(mAccountFragment);
+                                navigationView.setCheckedItem(id);
                                 mActionBar.setTitle(menuItem.getTitle());
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.place:
-                                menuItem.setChecked(true);
+                                setFragment(mPlaceFragment);
+                                navigationView.setCheckedItem(id);
                                 mActionBar.setTitle(menuItem.getTitle());
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.notification:
-                                menuItem.setChecked(true);
+                                setFragment(mNotificationsFragment);
+                                navigationView.setCheckedItem(id);
                                 mActionBar.setTitle(menuItem.getTitle());
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.logout:
-                                menuItem.setChecked(true);
+                                navigationView.setCheckedItem(id);
                                 Toast.makeText(MainActivity.this, "See you again ! ", Toast.LENGTH_SHORT).show();
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 startActivity(new Intent(MainActivity.this, LoginOptions.class));
@@ -108,5 +129,11 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
+
+    private void setFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
     }
 }

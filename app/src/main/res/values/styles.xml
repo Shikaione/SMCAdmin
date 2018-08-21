@@ -10,6 +10,7 @@
         <item name="android:fontFamily">@font/robotoregular</item>
     </style>
 
+
     <!-- Navigation drawer -->
     <style name="ToolbarTheme" parent="AppTheme">
         <item name="android:textColorPrimary">@android:color/white</item>
