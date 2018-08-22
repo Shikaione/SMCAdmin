@@ -44,7 +44,8 @@
     <string name="location_name">Location Name</string>
     <string name="location_type">Location Type</string>
     <string name="address">Address</string>
-    <string name="photo_storage">Upload images fro your Place</string>
+    <string name="photo_storage">Add Image</string>
     <string name="tvNotification">Here you can send Notifications to application clients</string>
     <string name="send_notification">Send Notification</string>
+    <string name="image_name">Image Name</string>
 </resources>

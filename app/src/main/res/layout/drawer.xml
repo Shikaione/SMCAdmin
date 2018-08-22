@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="@bool/fitsSystemWindows">
-
+    android:fitsSystemWindows="@bool/fitsSystemWindows"
+    tools:openDrawer="start">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/status_bar_height"
-            android:background="@color/colorPrimary"/>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/status_bar_height">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -31,19 +19,17 @@
             android:layout_height="?actionBarSize"
             android:background="@color/colorPrimary"
             android:elevation="4dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:theme="@style/ToolbarTheme" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Inbox"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/colorWhite" />
+        <FrameLayout
+            android:id="@+id/main_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </FrameLayout>
+        </FrameLayout>
+
+    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

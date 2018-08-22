@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/padding_layout_login"
-        android:paddingRight="@dimen/padding_layout_login"
-        android:orientation="vertical">
+        android:paddingRight="@dimen/padding_layout_login">
 
         <TextView
             android:id="@+id/welcome_place"
@@ -78,13 +78,30 @@
             android:hint="@string/address"
             android:inputType="text" />
 
-        <Button
-            android:id="@+id/photoStorage"
-            style="@style/account_button"
+        <LinearLayout
+            android:id="@+id/llPhotos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/photo_storage" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etPhotoName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/colorPrimary"
+                android:hint="@string/image_name"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/uploadPhoto"
+                style="@style/account_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/photo_storage" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/updatePlace"
