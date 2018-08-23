@@ -56,24 +56,6 @@
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/etCompany"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:hint="@string/company"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/etType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:hint="@string/company_type"
-            android:inputType="text" />
-
-        <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"
             android:text="@string/create_account" />
 
 

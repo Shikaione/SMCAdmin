@@ -28,10 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
 
     private DrawerLayout mDrawerLayout;
-    private Toolbar mToolbar;
     private ActionBar mActionBar;
-    private NavigationView mNavigationView;
-    private FrameLayout mFrame;
 
     private AccountFragment mAccountFragment;
     private PlaceFragment mPlaceFragment;
@@ -50,19 +47,21 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        View header = findViewById(R.id.nav_view);
+        View header = findViewById(R.id.nav_header);
 
-        mToolbar = findViewById(R.id.toolbar);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         mActionBar = getSupportActionBar();
-        mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        mActionBar.setTitle(null);
+        if (mActionBar != null) {
+            mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setTitle(null);
+        }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         if (mNavigationView != null) {
             setupNavigationDrawerContent(mNavigationView);
         }
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         View headerView = mNavigationView.getHeaderView(0);
 
-        mFrame = findViewById(R.id.main_frame);
+        FrameLayout mFrame = findViewById(R.id.main_frame);
 
         mAccountFragment = new AccountFragment();
         mPlaceFragment = new PlaceFragment();

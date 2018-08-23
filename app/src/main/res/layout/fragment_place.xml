@@ -21,7 +21,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/welcome_place"
             android:textAlignment="center"
-            android:textColor="@color/colorTextWhite"
+            android:textColor="@color/colorPrimary"
             android:textSize="25sp" />
 
         <EditText
@@ -78,34 +78,19 @@
             android:hint="@string/address"
             android:inputType="text" />
 
-        <LinearLayout
-            android:id="@+id/llPhotos"
+        <Button
+            android:id="@+id/uploadPhoto"
+            style="@style/account_button"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etPhotoName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/colorPrimary"
-                android:hint="@string/image_name"
-                android:inputType="text" />
-
-            <Button
-                android:id="@+id/uploadPhoto"
-                style="@style/account_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/photo_storage" />
-        </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:text="@string/photo_storage" />
 
         <Button
             android:id="@+id/updatePlace"
             style="@style/account_button"
+            android:textColor="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

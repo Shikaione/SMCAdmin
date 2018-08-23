@@ -95,8 +95,6 @@ public class PlaceFragment extends Fragment {
             }
         });
 
-        mImageName = (EditText) view.findViewById(R.id.etPhotoName);
-
         return view;
     }
 
@@ -141,7 +139,7 @@ public class PlaceFragment extends Fragment {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
-                        Upload upload = new Upload(mImageName.getText().toString().trim(),
+                        Upload upload = new Upload(mLocation.getText().toString().trim(),
                                 downloadUri.toString());
                         databaseRef.child("placeImages").push().setValue(upload);
                         Toast.makeText(getContext(), "Upload Done.",

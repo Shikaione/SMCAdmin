@@ -40,8 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
         mName = (EditText) findViewById(R.id.etName);
         mEmail = (EditText) findViewById(R.id.etEmail);
         mVerifyEmail = (EditText) findViewById(R.id.etVerifyEmail);
-        mCompany = (EditText) findViewById(R.id.etCompany);
-        mType = (EditText) findViewById(R.id.etType);
         mPassword = (EditText) findViewById(R.id.etPassword);
         mVerifyPassword = (EditText) findViewById(R.id.etVerifyPassword);
 
@@ -69,8 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                             String name = mName.getText().toString();
                             String email = mEmail.getText().toString();
-                            String company = mCompany.getText().toString();
-                            String type = mType.getText().toString();
 
                             mDatabase = mDatabase.child("users");
 
@@ -78,8 +74,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                             userMap.put("name", name);
                             userMap.put("email", email);
-                            userMap.put("company", company);
-                            userMap.put("type", type);
 
                             mDatabase.setValue(userMap);
 
@@ -122,22 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
             valid = false;
         } else {
             mPassword.setError(null);
-        }
-
-        String company = mCompany.getText().toString();
-        if (TextUtils.isEmpty(password)) {
-            mCompany.setError("Required.");
-            valid = false;
-        } else {
-            mCompany.setError(null);
-        }
-
-        String type = mType.getText().toString();
-        if (TextUtils.isEmpty(password)) {
-            mType.setError("Required.");
-            valid = false;
-        } else {
-            mType.setError(null);
         }
 
         return valid;
