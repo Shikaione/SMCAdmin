@@ -46,7 +46,6 @@ public class PlaceFragment extends Fragment {
     public PlaceFragment() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
