@@ -114,12 +114,11 @@ public class LoginOptions extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            Log.e(TAG, "Exista User : " + user);
             Intent intent = new Intent(LoginOptions.this, MainActivity.class);
             startActivity(intent);
             finish();
         } else {
-            Log.e(TAG, "Exista User : " + user);
+            Log.e(TAG, "Nimeni nu este autentificat");
         }
     }
 

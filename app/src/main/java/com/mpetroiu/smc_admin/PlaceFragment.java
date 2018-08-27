@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.content.*;
 
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -41,7 +43,9 @@ public class PlaceFragment extends Fragment {
     public DatabaseReference databaseRef;
 
     private Uri mImageUri;
-    private EditText mImageName, mOwner, mEmail, mPhone, mLocation, mLocationType, mAddress;
+    private EditText mOwner, mEmail, mPhone, mLocation, mLocationType, mAddress;
+    private Button mUploadPicture, mUploadPlace;
+    private ProgressBar mProgressBar;
 
     public PlaceFragment() {
     }
@@ -52,6 +56,7 @@ public class PlaceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place, container, false);
 
+        mProgressBar = view.findViewById(R.id.progressBarHorizontal);
 
         mOwner = view.findViewById(R.id.etOwner);
         mEmail = view.findViewById(R.id.etEmail);
@@ -60,42 +65,11 @@ public class PlaceFragment extends Fragment {
         mLocationType = view.findViewById(R.id.etLocationType);
         mAddress = view.findViewById(R.id.etAddress);
 
-        Button mUploadPicture = (Button) view.findViewById(R.id.uploadPhoto);
-        mUploadPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, GALLERY_INTENT);
-            }
-        });
+        mUploadPicture = view.findViewById(R.id.uploadPhoto);
+        mUploadPlace = view.findViewById(R.id.updatePlace);
 
-        Button mUploadePlace = view.findViewById(R.id.updatePlace);
-        mUploadePlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String owner = mOwner.getText().toString();
-                String email = mEmail.getText().toString();
-                String phone = mPhone.getText().toString();
-                String location = mLocation.getText().toString();
-                String type = mLocationType.getText().toString();
-                String address = mAddress.getText().toString();
-
-                Map<String, String> placeMap = new HashMap<>();
-
-                placeMap.put("owner", owner);
-                placeMap.put("email", email);
-                placeMap.put("phone", phone);
-                placeMap.put("location", location);
-                placeMap.put("type", type);
-                placeMap.put("address", address);
-
-                databaseRef.child("Place"+ System.currentTimeMillis()).setValue(placeMap);
-                uploadFile();
-            }
-        });
-
-        mImageName = (EditText) view.findViewById(R.id.etPhotoName);
+        uploadPicture();
+        uploadPlace();
 
         return view;
     }
@@ -113,16 +87,52 @@ public class PlaceFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
             mImageUri = data.getData();
-
         }
     }
 
+    private void uploadPicture(){
+        mUploadPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
+            }
+        });
+    }
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContext().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
+    private  void uploadPlace(){
+        mUploadPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String owner = mOwner.getText().toString();
+                String email = mEmail.getText().toString();
+                String phone = mPhone.getText().toString();
+                String location = mLocation.getText().toString();
+                String type = mLocationType.getText().toString();
+                String address = mAddress.getText().toString();
+                String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                Map<String, String> placeMap = new HashMap<>();
+
+                placeMap.put("user", user);
+                placeMap.put("owner", owner);
+                placeMap.put("email", email);
+                placeMap.put("phone", phone);
+                placeMap.put("location", location);
+                placeMap.put("type", type);
+                placeMap.put("address", address);
+
+                databaseRef.push().setValue(placeMap);
+                uploadFile();
+            }
+        });
+    }
     private void uploadFile() {
         if (mImageUri != null) {
             final StorageReference imageRef = storageRef.child("place" + mImageUri.getLastPathSegment() +
@@ -134,6 +144,7 @@ public class PlaceFragment extends Fragment {
                     if (!task.isSuccessful()) {
                         throw task.getException();
                     }
+                    mProgressBar.setVisibility(View.VISIBLE);
                     return imageRef.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -141,9 +152,13 @@ public class PlaceFragment extends Fragment {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
-                        Upload upload = new Upload(mImageName.getText().toString().trim(),
+                        Upload upload = new Upload(mLocation.getText().toString().trim(),
                                 downloadUri.toString());
+
                         databaseRef.child("placeImages").push().setValue(upload);
+
+                        mProgressBar.setVisibility(View.GONE);
+
                         Toast.makeText(getContext(), "Upload Done.",
                                 Toast.LENGTH_LONG).show();
                     }
@@ -151,4 +166,5 @@ public class PlaceFragment extends Fragment {
             });
         }
     }
+
 }
