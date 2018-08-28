@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="25sp"
+        android:textColor="@color/colorPrimaryLight"
         android:layout_marginTop="5dp"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
         android:text="@string/welcome" />
 
     <EditText
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/login"
         android:textColor="@color/colorTextWhite"
+        android:text="@string/login"
         android:background="@drawable/background_one"/>
 </LinearLayout>
