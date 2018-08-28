@@ -22,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/email"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryLight"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -32,7 +32,7 @@
         android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="@string/password"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryLight"
         android:inputType="textPassword" />
 
     <Button

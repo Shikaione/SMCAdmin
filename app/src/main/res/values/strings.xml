@@ -48,4 +48,6 @@
     <string name="tvNotification">Here you can send Notifications to application clients</string>
     <string name="send_notification">Send Notification</string>
     <string name="image_name">Image Name</string>
+    <string name="to_be_replaced">To be replaced</string>
+    <string name="add_new_place">Add new place</string>
 </resources>

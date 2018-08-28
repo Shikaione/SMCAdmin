@@ -1,6 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fragmentBackground">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_layout_login"
+        android:paddingRight="@dimen/padding_layout_login">
+
+        <TextView
+            android:id="@+id/welcome_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/welcome_place"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/etOwner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:hint="@string/owner"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:hint="@string/phone"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/etLocationName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:hint="@string/location_name"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etLocationType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:hint="@string/location_type"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:hint="@string/address"
+            android:inputType="text" />
+
+
+        <Button
+            android:id="@+id/uploadPhoto"
+            style="@style/account_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/photo_storage"
+            android:textColor="@color/colorPrimaryLight"/>
+
+        <Button
+            android:id="@+id/updatePlace"
+            style="@style/account_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/add_new_place"
+            android:textColor="@color/colorPrimaryLight"/>
+
+    </LinearLayout>
+
+</FrameLayout>

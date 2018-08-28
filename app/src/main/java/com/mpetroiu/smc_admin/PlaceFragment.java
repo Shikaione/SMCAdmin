@@ -1,170 +1,104 @@
 package com.mpetroiu.smc_admin;
 
 
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-import android.content.*;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.app.Activity.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlaceFragment extends Fragment {
 
-    private final static int GALLERY_INTENT = 2;
-
-    public StorageReference storageRef;
-    public DatabaseReference databaseRef;
-
-    private Uri mImageUri;
-    private EditText mOwner, mEmail, mPhone, mLocation, mLocationType, mAddress;
-    private Button mUploadPicture, mUploadPlace;
-    private ProgressBar mProgressBar;
+    private FloatingActionButton addNewPlace;
+    private RecyclerView mRecyclerView;
+    private PlaceAdapter mAdapter;
+    private List<Upload> mUploads;
+    private DatabaseReference mDbReference;
+    private FirebaseAuth mAuth;
+    private String currentUser;
 
     public PlaceFragment() {
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place, container, false);
 
-        mProgressBar = view.findViewById(R.id.progressBarHorizontal);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser().getUid();
+        mDbReference = FirebaseDatabase.getInstance().getReference().child("Places");
 
-        mOwner = view.findViewById(R.id.etOwner);
-        mEmail = view.findViewById(R.id.etEmail);
-        mPhone = view.findViewById(R.id.etPhone);
-        mLocation = view.findViewById(R.id.etLocationName);
-        mLocationType = view.findViewById(R.id.etLocationType);
-        mAddress = view.findViewById(R.id.etAddress);
+        addNewPlace = view.findViewById(R.id.addPlace);
 
-        mUploadPicture = view.findViewById(R.id.uploadPhoto);
-        mUploadPlace = view.findViewById(R.id.updatePlace);
-
-        uploadPicture();
-        uploadPlace();
+        addPlace();
 
         return view;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        storageRef = FirebaseStorage.getInstance().getReference().child("placeImages");
-        databaseRef = FirebaseDatabase.getInstance().getReference().child("Places").child("Place");
+        mRecyclerView = view.findViewById(R.id.placeRecycle);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mUploads = new ArrayList<>();
+        showPlace();
+        mAdapter = new PlaceAdapter(mUploads);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
-            mImageUri = data.getData();
-        }
-    }
-
-    private void uploadPicture(){
-        mUploadPicture.setOnClickListener(new View.OnClickListener() {
+    private void addPlace(){
+        addNewPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, GALLERY_INTENT);
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                NewPlaceFragment exploreFragment = new NewPlaceFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_frame,
+                        exploreFragment).addToBackStack(null).commit();
             }
         });
     }
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContext().getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
 
-    private  void uploadPlace(){
-        mUploadPlace.setOnClickListener(new View.OnClickListener() {
+    public void showPlace(){
+        Query byUser = mDbReference.orderByChild("user").equalTo(currentUser);
+
+        byUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                String owner = mOwner.getText().toString();
-                String email = mEmail.getText().toString();
-                String phone = mPhone.getText().toString();
-                String location = mLocation.getText().toString();
-                String type = mLocationType.getText().toString();
-                String address = mAddress.getText().toString();
-                String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for(DataSnapshot ds : children){
+                    Upload upload = ds.getValue(Upload.class);
+                    mUploads.add(upload);
 
-                Map<String, String> placeMap = new HashMap<>();
+                }
+            }
 
-                placeMap.put("user", user);
-                placeMap.put("owner", owner);
-                placeMap.put("email", email);
-                placeMap.put("phone", phone);
-                placeMap.put("location", location);
-                placeMap.put("type", type);
-                placeMap.put("address", address);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                databaseRef.push().setValue(placeMap);
-                uploadFile();
             }
         });
     }
-    private void uploadFile() {
-        if (mImageUri != null) {
-            final StorageReference imageRef = storageRef.child("place" + mImageUri.getLastPathSegment() +
-                    "." + getFileExtension(mImageUri));
-
-            imageRef.putFile(mImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    return imageRef.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        Upload upload = new Upload(mLocation.getText().toString().trim(),
-                                downloadUri.toString());
-
-                        databaseRef.child("placeImages").push().setValue(upload);
-
-                        mProgressBar.setVisibility(View.GONE);
-
-                        Toast.makeText(getContext(), "Upload Done.",
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
-    }
-
 }
