@@ -3,110 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/fragmentBackground"
     tools:context=".PlaceFragment">
 
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/circularProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimaryLight"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/placeRecycle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_layout_login"
-        android:paddingRight="@dimen/padding_layout_login">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/welcome_place"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/welcome_place"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryLight"
-            android:textSize="25sp" />
+    </android.support.v7.widget.RecyclerView>
 
-        <EditText
-            android:id="@+id/etOwner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimaryLight"
-            android:hint="@string/owner"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimaryLight"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/etPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimaryLight"
-            android:hint="@string/phone"
-            android:inputType="phone" />
-
-        <EditText
-            android:id="@+id/etLocationName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimaryLight"
-            android:hint="@string/location_name"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/etLocationType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimaryLight"
-            android:hint="@string/location_type"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/etAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimaryLight"
-            android:hint="@string/address"
-            android:inputType="text" />
-
-
-        <Button
-            android:id="@+id/uploadPhoto"
-            style="@style/account_button"
-            android:background="@drawable/background_one"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/photo_storage"
-            android:textColor="@color/colorTextWhite"/>
-
-        <Button
-            android:id="@+id/updatePlace"
-            style="@style/account_button"
-            android:background="@drawable/background_one"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/update_your_place"
-            android:textColor="@color/colorTextWhite"/>
-
-        <ProgressBar
-            android:id="@+id/progressBarHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_marginTop="10dp"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/colorPrimaryLight"
-            style="@android:style/Widget.ProgressBar.Horizontal"/>
-    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addPlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/float_button_margin"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/colorPrimaryLight"
+        />
 
 </FrameLayout>

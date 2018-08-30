@@ -4,5 +4,6 @@
     <dimen name="status_bar_height">0dp</dimen>
     <dimen name="padding_account_button">45dp</dimen>
     <dimen name="padding_layout_login">20dp</dimen>
+    <dimen name="float_button_margin">20dp</dimen>
     <bool name="fitsSystemWindows">true</bool>
 </resources>
