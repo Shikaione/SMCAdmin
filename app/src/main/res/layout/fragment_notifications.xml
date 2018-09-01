@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:layout_marginTop="50dp"
         android:paddingLeft="@dimen/padding_layout_login"
         android:paddingRight="@dimen/padding_layout_login"
         android:orientation="vertical">
@@ -21,7 +21,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/tvNotification"
             android:textAlignment="center"
-            android:textColor="@color/colorTextWhite"
+            android:textColor="@color/colorPrimaryLight"
             android:textSize="20sp" />
 
         <EditText
@@ -30,17 +30,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/colorPrimary"
-            android:hint="@string/owner"
+            android:hint="Title"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/etNotificationMessage"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/colorPrimary"
-            android:hint="@string/email"
-            android:inputType="textMultiLine" />
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:gravity="start|top"
+            android:lines="3"
+            android:maxLines="5"/>
 
         <Button
             android:id="@+id/sendNotification"
@@ -48,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimaryLight"
             android:text="@string/send_notification" />
 
 

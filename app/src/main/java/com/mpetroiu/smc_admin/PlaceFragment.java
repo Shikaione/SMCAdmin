@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +36,7 @@ public class PlaceFragment extends Fragment {
     private DatabaseReference mDbReference;
     private FirebaseAuth mAuth;
     private String currentUser;
+    private ProgressBar mProgressCircle;
 
     public PlaceFragment() {
     }
@@ -47,7 +49,7 @@ public class PlaceFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser().getUid();
         mDbReference = FirebaseDatabase.getInstance().getReference().child("Places");
-
+        mProgressCircle = view.findViewById(R.id.circularProgressBar);
         addNewPlace = view.findViewById(R.id.addPlace);
 
         addPlace();
@@ -64,9 +66,9 @@ public class PlaceFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mUploads = new ArrayList<>();
-        showPlace();
         mAdapter = new PlaceAdapter(mUploads);
         mRecyclerView.setAdapter(mAdapter);
+        showPlace();
     }
 
     private void addPlace(){
@@ -84,15 +86,17 @@ public class PlaceFragment extends Fragment {
     public void showPlace(){
         Query byUser = mDbReference.orderByChild("user").equalTo(currentUser);
 
-        byUser.addListenerForSingleValueEvent(new ValueEventListener() {
+        byUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                mUploads.clear();
                 for(DataSnapshot ds : children){
                     Upload upload = ds.getValue(Upload.class);
                     mUploads.add(upload);
-
                 }
+                mProgressCircle.setVisibility(View.INVISIBLE);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
