@@ -1,6 +1,7 @@
 package com.mpetroiu.smc_admin;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,12 +14,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+    private DatabaseReference mDataRef;
 
     private DrawerLayout mDrawerLayout;
     private ActionBar mActionBar;
@@ -34,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private AccountFragment mAccountFragment;
     private PlaceFragment mPlaceFragment;
     private NotificationsFragment mNotificationsFragment;
+
+    private TextView mUserName, mUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mDataRef = FirebaseDatabase.getInstance().getReference().child("users");
 
         View header = findViewById(R.id.nav_header);
 
@@ -77,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
         View headerView = mNavigationView.getHeaderView(0);
 
+        mUserName = (TextView) headerView.findViewById(R.id.logName);
+        mUserEmail = (TextView) headerView.findViewById(R.id.userEmail);
+
         FrameLayout mFrame = findViewById(R.id.main_frame);
 
         mAccountFragment = new AccountFragment();
@@ -84,6 +99,30 @@ public class MainActivity extends AppCompatActivity {
         mNotificationsFragment = new NotificationsFragment();
 
         setFragment(mPlaceFragment);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        String uid = mAuth.getCurrentUser().getUid();
+
+        DatabaseReference userRef = mDataRef.child(uid);
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUserName.setText(dataSnapshot.child("name").getValue().toString());
+                mUserEmail.setText(dataSnapshot.child("email").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     @Override

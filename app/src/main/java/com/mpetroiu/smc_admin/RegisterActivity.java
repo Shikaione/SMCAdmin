@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             String name = mName.getText().toString();
                             String email = mEmail.getText().toString();
-
+                            String uid = mAuth.getCurrentUser().getUid();
                             mDatabase = mDatabase.child("users");
 
                             Map<String, String> userMap = new HashMap<>();
@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                             userMap.put("name", name);
                             userMap.put("email", email);
 
-                            mDatabase.setValue(userMap);
+                            mDatabase.child(uid).setValue(userMap);
 
                             startActivity(new Intent(RegisterActivity.this, LoginOptions.class));
                         } else {

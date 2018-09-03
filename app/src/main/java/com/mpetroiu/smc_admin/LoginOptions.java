@@ -24,15 +24,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class LoginOptions extends AppCompatActivity {
 
-    private static final String TAG ="LoginOptionsActivity";
+    private static final String TAG = "LoginOptionsActivity";
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
@@ -51,9 +57,10 @@ public class LoginOptions extends AppCompatActivity {
                 .build();
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(LoginOptions.this, MainActivity.class));
             finish();
         }
@@ -72,9 +79,9 @@ public class LoginOptions extends AppCompatActivity {
                 mLogin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(validateForm()){
+                        if (validateForm()) {
                             signIn(mEmail.getText().toString(), mPassword.getText().toString());
-                        }else{
+                        } else {
                             Toast.makeText(LoginOptions.this,
                                     R.string.failed_login,
                                     Toast.LENGTH_SHORT).show();
@@ -192,6 +199,21 @@ public class LoginOptions extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            String name = user.getDisplayName();
+                            String email = user.getEmail();
+                            String uid = user.getUid();
+
+                            mDatabase = mDatabase.child("users");
+
+                            Map<String, String> userMap = new HashMap<>();
+
+                            userMap.put("name", name);
+                            userMap.put("email", email);
+
+                            mDatabase.child(uid).setValue(userMap);
+
+
                             updateUI(user);
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
