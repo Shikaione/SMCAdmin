@@ -45,10 +45,11 @@
     <string name="location_type">Location Type</string>
     <string name="address">Address</string>
     <string name="photo_storage">Add thumbnail to you place</string>
-    <string name="tvNotification">Here you can send Notifications to application clients</string>
+    <string name="tvNotification">Here you can send Notifications to subscribed places</string>
     <string name="send_notification">Send Notification</string>
     <string name="image_name">Image Name</string>
     <string name="to_be_replaced">To be replaced</string>
     <string name="add_new_place">Add new place</string>
     <string name="description">Description</string>
+    <string name="send_subscribed_notification">Select subscribed place to send notification</string>
 </resources>

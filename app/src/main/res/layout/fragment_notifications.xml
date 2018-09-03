@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:paddingLeft="@dimen/padding_layout_login"
         android:paddingRight="@dimen/padding_layout_login"
         android:orientation="vertical">
@@ -18,11 +18,29 @@
             android:id="@+id/tvNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/tvNotification"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryLight"
             android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryLight"
+            android:text="@string/send_subscribed_notification"/>
+
+        <Spinner
+            android:id="@+id/locationSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginTop="5dp"
+            >
+
+        </Spinner>
 
         <EditText
             android:id="@+id/etTitle"
