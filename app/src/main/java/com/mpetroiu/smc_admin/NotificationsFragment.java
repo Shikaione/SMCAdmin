@@ -80,7 +80,7 @@ public class NotificationsFragment extends Fragment {
         return v;
     }
 
-    private void populateSpinner(){
+    private void populateSpinner() {
         Query byUser = mDatabaseRef.orderByChild("user").equalTo(currentUser);
 
         byUser.addValueEventListener(new ValueEventListener() {
@@ -89,9 +89,9 @@ public class NotificationsFragment extends Fragment {
                 Iterable<DataSnapshot> children = dataSnapshot.getChildren();
                 final List<String> places = new ArrayList<String>();
 
-                for(DataSnapshot ds : children){
+                for (DataSnapshot ds : children) {
                     Upload upload = ds.getValue(Upload.class);
-                    if(upload != null) {
+                    if (upload != null) {
                         String placeName = upload.getLocation();
                         places.add(placeName);
                     }
@@ -109,8 +109,7 @@ public class NotificationsFragment extends Fragment {
         });
     }
 
-    private void sendNotification()
-    {
+    private void sendNotification() {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -120,7 +119,7 @@ public class NotificationsFragment extends Fragment {
                             .permitAll().build();
                     StrictMode.setThreadPolicy(policy);
 
-                    String tag = mLocationSpinner.getSelectedItem().toString().replace(" ","");
+                    String tag = mLocationSpinner.getSelectedItem().toString().replace(" ", "");
                     String title = mTitle.getText().toString();
                     String message = mDescription.getText().toString();
 
@@ -143,7 +142,7 @@ public class NotificationsFragment extends Fragment {
                                 + "\"filters\": [{\"field\": \"tag\", \"key\": \"subscribed_topic\", \"relation\": \"=\", \"value\": \"" + tag + "\"}],"
 
                                 + "\"data\": {\"foo\": \"bar\"},"
-                                + "\"headings\": {\"en\": \""+ title  +"\"},"
+                                + "\"headings\": {\"en\": \"" + title + "\"},"
                                 + "\"contents\": {\"en\": \"" + message + "\"}"
                                 + "}";
 

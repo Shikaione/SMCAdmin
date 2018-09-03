@@ -72,7 +72,7 @@ public class NewPlaceFragment extends Fragment {
         mUploadPicture = view.findViewById(R.id.uploadPhoto);
         mUploadPlace = view.findViewById(R.id.updatePlace);
 
-        if (mUploadPicture != null && mUploadPlace !=null){
+        if (mUploadPicture != null && mUploadPlace != null) {
             uploadPicture();
             uploadPlace();
         }
@@ -89,7 +89,7 @@ public class NewPlaceFragment extends Fragment {
         }
     }
 
-    private void uploadPicture(){
+    private void uploadPicture() {
         mUploadPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,13 +99,14 @@ public class NewPlaceFragment extends Fragment {
             }
         });
     }
+
     private String getFileExtension(Uri uri) {
         ContentResolver cR = getContext().getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private  void uploadPlace(){
+    private void uploadPlace() {
         mUploadPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +114,7 @@ public class NewPlaceFragment extends Fragment {
             }
         });
     }
+
     private void uploadInfo() {
         if (mImageUri != null) {
             final StorageReference imageRef = storageRef.child("place" + mImageUri.getLastPathSegment() +
