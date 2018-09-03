@@ -5,11 +5,125 @@
     android:layout_height="match_parent"
     tools:context=".AccountFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:text="THIS IS ACCOUNT FRAGMENT" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/accountCustomization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/account_customization"
+            android:textSize="23sp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"/>
+        <View
+            android:layout_below="@id/accountCustomization"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorGrey" />
+
+        <ImageView
+            android:id="@+id/imgCover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="25dp"
+            android:layout_below="@id/accountCustomization"
+            android:background="@drawable/header_background"
+            android:scaleType="centerCrop" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUser"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="start|top"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/app_logo" />
+
+
+        <Button
+            android:id="@+id/btnAddProfilePic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgCover"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_layout"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:text="@string/add_profile_picture"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="19sp"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btnAddProfileCover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnAddProfilePic"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/btn_layout"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:text="@string/add_profile_cover"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="19sp"
+            android:textAllCaps="false"/>
+
+        <TextView
+            android:id="@+id/accountActions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnAddProfileCover"
+            android:text="@string/account_actions"
+            android:textSize="23sp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="15dp"/>
+        <View
+            android:layout_below="@id/accountActions"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorGrey" />
+
+        <Button
+            android:id="@+id/btnDeleteAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/accountActions"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/btn_layout"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:text="@string/delete_account"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="19sp"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/btnChangePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnDeleteAccount"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/btn_layout"
+            android:backgroundTint="@color/colorPrimaryLight"
+            android:text="@string/change_password"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="19sp"
+            android:textAllCaps="false"/>
+    </RelativeLayout>
+
 
 </FrameLayout>

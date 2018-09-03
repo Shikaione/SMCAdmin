@@ -52,4 +52,10 @@
     <string name="add_new_place">Add new place</string>
     <string name="description">Description</string>
     <string name="send_subscribed_notification">Select subscribed place to send notification</string>
+    <string name="add_profile_picture">Add profile picture</string>
+    <string name="add_profile_cover">Add profile cover</string>
+    <string name="account_actions">Account actions</string>
+    <string name="account_customization">Account customization</string>
+    <string name="change_password">Change password</string>
+    <string name="delete_account">Delete account</string>
 </resources>
