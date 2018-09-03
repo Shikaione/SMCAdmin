@@ -176,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void setFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction  = getSupportFragmentManager().beginTransaction();
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
     }
