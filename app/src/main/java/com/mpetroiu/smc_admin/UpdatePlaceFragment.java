@@ -1,5 +1,6 @@
 package com.mpetroiu.smc_admin;
 
+
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,11 +14,12 @@ import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,15 +31,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NewPlaceFragment extends Fragment {
+public class UpdatePlaceFragment extends Fragment {
 
-    private final static String TAG = "NewPlaceFragment";
+    private final static String TAG = "UpdatePlaceFragment";
     private final static int GALLERY_INTENT = 2;
 
     public StorageReference storageRef;
@@ -46,38 +49,80 @@ public class NewPlaceFragment extends Fragment {
     private Uri mImageUri;
     private EditText mOwner, mEmail, mPhone, mLocation, mLocationType, mAddress;
     private Button mUploadPicture, mUploadPlace;
-    private String user;
-    private String thumbnailUrl;
+    private String user, thumbnailUrl, thumb, key;
+    private ImageView previewThumb;
 
-    public NewPlaceFragment() {
+    public UpdatePlaceFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_new_place, container, false);
+        View v = inflater.inflate(R.layout.fragment_update_place, container, false);
 
         storageRef = FirebaseStorage.getInstance().getReference().child("placeImages");
         databaseRef = FirebaseDatabase.getInstance().getReference().child("Places");
         user = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mOwner = view.findViewById(R.id.etOwner);
-        mEmail = view.findViewById(R.id.etEmail);
-        mPhone = view.findViewById(R.id.etPhone);
-        mLocation = view.findViewById(R.id.etLocationName);
-        mLocationType = view.findViewById(R.id.etLocationType);
-        mAddress = view.findViewById(R.id.etAddress);
+        mOwner = v.findViewById(R.id.etOwner);
+        mEmail = v.findViewById(R.id.etEmail);
+        mPhone = v.findViewById(R.id.etPhone);
+        mLocation = v.findViewById(R.id.etLocationName);
+        mLocationType = v.findViewById(R.id.etLocationType);
+        mAddress = v.findViewById(R.id.etAddress);
+        previewThumb = v.findViewById(R.id.previewThumbnail);
 
-        mUploadPicture = view.findViewById(R.id.uploadPhoto);
-        mUploadPlace = view.findViewById(R.id.updatePlace);
+        mUploadPicture = v.findViewById(R.id.uploadPhoto);
+        mUploadPlace = v.findViewById(R.id.updatePlace);
 
-        if (mUploadPicture != null && mUploadPlace != null) {
+        if (getArguments() != null) {
+            key = getArguments().getString("key");
+            Log.d(TAG, "this is key : " + key);
+        }
+
+        retrieveData();
+
+        if (mUploadPlace != null) {
             uploadPicture();
             uploadPlace();
         }
 
-        return view;
+
+        return v;
+    }
+
+    public void retrieveData() {
+        DatabaseReference retrieve = databaseRef.child(key);
+
+        retrieve.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Place place = dataSnapshot.getValue(Place.class);
+                final String owner, email, address, location, type, phone;
+                if (place != null) {
+                    owner = place.getOwner();
+                    email = place.getEmail();
+                    address = place.getEmail();
+                    location = place.getLocation();
+                    type = place.getType();
+                    phone = place.getPhone();
+                    thumb = place.getThumbnail();
+
+                    mOwner.setText(owner);
+                    mEmail.setText(email);
+                    mAddress.setText(address);
+                    mLocation.setText(location);
+                    mLocationType.setText(type);
+                    mPhone.setText(phone);
+                    Picasso.get().load(thumb).into(previewThumb);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -85,6 +130,7 @@ public class NewPlaceFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
             mImageUri = data.getData();
+            Picasso.get().load(mImageUri).into(previewThumb);
         }
     }
 
@@ -132,7 +178,6 @@ public class NewPlaceFragment extends Fragment {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
-
                         thumbnailUrl = downloadUri.toString();
 
                         String owner = mOwner.getText().toString();
@@ -141,7 +186,6 @@ public class NewPlaceFragment extends Fragment {
                         String location = mLocation.getText().toString();
                         String type = mLocationType.getText().toString();
                         String address = mAddress.getText().toString();
-
 
                         Map<String, String> placeMap = new HashMap<>();
 
@@ -154,14 +198,19 @@ public class NewPlaceFragment extends Fragment {
                         placeMap.put("address", address);
                         placeMap.put("thumbnail", thumbnailUrl);
 
-                        databaseRef.push().setValue(placeMap);
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put(key, placeMap);
 
-                        Toast.makeText(getContext(), "New palace added.",
+                        databaseRef.updateChildren(childUpdates);
+
+                        Toast.makeText(getContext(), "Place updated.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+
+
     }
 
 }

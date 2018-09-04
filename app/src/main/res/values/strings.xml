@@ -58,4 +58,7 @@
     <string name="account_customization">Account customization</string>
     <string name="change_password">Change password</string>
     <string name="delete_account">Delete account</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="update_place_thumbnail">Update place thumbnail</string>
+    <string name="update_place">Update place</string>
 </resources>

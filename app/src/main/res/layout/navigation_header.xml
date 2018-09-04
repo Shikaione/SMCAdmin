@@ -7,12 +7,14 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
+        android:id="@+id/cover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:background="@drawable/header_background" />
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile"
         android:layout_marginStart="16dp"
         android:layout_marginTop="@dimen/navigation_drawer_header_margin"
         android:layout_width="80dp"
