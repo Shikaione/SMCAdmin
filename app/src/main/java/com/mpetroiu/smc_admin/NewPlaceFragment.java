@@ -77,7 +77,6 @@ public class NewPlaceFragment extends Fragment {
             uploadPlace();
         }
 
-
         return view;
     }
 
