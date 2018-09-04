@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private NotificationsFragment mNotificationsFragment;
 
     private TextView mUserName, mUserEmail;
+
+    private ImageView mCover;
+    private CircleImageView mProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
         mUserName = (TextView) headerView.findViewById(R.id.logName);
         mUserEmail = (TextView) headerView.findViewById(R.id.userEmail);
+        mProfile = headerView.findViewById(R.id.profile);
+        mCover = headerView.findViewById(R.id.cover);
 
         FrameLayout mFrame = findViewById(R.id.main_frame);
 
@@ -114,6 +123,13 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUserName.setText(dataSnapshot.child("name").getValue().toString());
                 mUserEmail.setText(dataSnapshot.child("email").getValue().toString());
+                String profile = dataSnapshot.child("profileImage").getValue().toString();
+                String cover = dataSnapshot.child("coverImage").getValue().toString();
+                if(!profile.isEmpty() && !cover.isEmpty()){
+                    Picasso.get().load(profile).into(mProfile);
+                    Picasso.get().load(cover).into(mCover);
+                }
+
             }
 
             @Override
