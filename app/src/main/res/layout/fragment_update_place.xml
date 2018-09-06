@@ -20,7 +20,7 @@
                 android:id="@+id/welcome_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/update_your_place"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryLight"

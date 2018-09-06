@@ -21,8 +21,8 @@
                 android:id="@+id/welcome_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/welcome_place"
+                android:layout_marginTop="5dp"
+                android:text="Add a new place"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryLight"
                 android:textSize="25sp" />
@@ -104,6 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/add_new_place"
                 android:textColor="@color/colorPrimaryLight" />
 

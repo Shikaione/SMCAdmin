@@ -1,6 +1,8 @@
 package com.mpetroiu.smc_admin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView mCover;
     private CircleImageView mProfile;
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,11 +127,15 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUserName.setText(dataSnapshot.child("name").getValue().toString());
                 mUserEmail.setText(dataSnapshot.child("email").getValue().toString());
-                String profile = dataSnapshot.child("profileImage").getValue().toString();
-                String cover = dataSnapshot.child("coverImage").getValue().toString();
-                if(!profile.isEmpty() && !cover.isEmpty()){
+                if (dataSnapshot.child("profileImage").exists()) {
+                    String profile = dataSnapshot.child("profileImage").getValue().toString();
                     Picasso.get().load(profile).into(mProfile);
+                }
+                if (dataSnapshot.child("coverImage").exists()) {
+                    String cover = dataSnapshot.child("coverImage").getValue().toString();
                     Picasso.get().load(cover).into(mCover);
+                }else{
+
                 }
 
             }

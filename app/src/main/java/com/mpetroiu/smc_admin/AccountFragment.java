@@ -5,8 +5,10 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +55,7 @@ public class AccountFragment extends Fragment {
     private ImageView mCoverImage;
     private CircleImageView mProfileImage;
 
-    private Button mUploadCover, mUploadProfile, mDeleteAccount, mChangePassword, mProfileUpdate;
+    private Button mUploadCover, mUploadProfile, mDeleteAccount, mProfileUpdate;
 
     private String profileImage, coverImage;
 
@@ -76,7 +78,6 @@ public class AccountFragment extends Fragment {
 
         mUploadCover = v.findViewById(R.id.btnAddProfileCover);
         mUploadProfile = v.findViewById(R.id.btnAddProfilePic);
-        mChangePassword = v.findViewById(R.id.btnChangePassword);
         mDeleteAccount = v.findViewById(R.id.btnDeleteAccount);
         mProfileUpdate = v.findViewById(R.id.btnProfileUpdate);
 
@@ -86,13 +87,14 @@ public class AccountFragment extends Fragment {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String profile = dataSnapshot.child("profileImage").getValue().toString();
-                String cover = dataSnapshot.child("coverImage").getValue().toString();
-                if(!profile.isEmpty() && !cover.isEmpty()){
+                if (dataSnapshot.child("profileImage").exists()) {
+                    String profile = dataSnapshot.child("profileImage").getValue().toString();
                     Picasso.get().load(profile).into(mProfileImage);
+                }
+                if (dataSnapshot.child("coverImage").exists()) {
+                    String cover = dataSnapshot.child("coverImage").getValue().toString();
                     Picasso.get().load(cover).into(mCoverImage);
                 }
-
             }
 
             @Override
@@ -101,12 +103,20 @@ public class AccountFragment extends Fragment {
             }
         });
 
+
         if (mUploadProfile != null &&
                 mUploadCover != null &&
                 mProfileUpdate != null) {
             uploadImage();
             updateProfile();
         }
+
+        mDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAccount();
+            }
+        });
 
         return v;
     }
@@ -195,7 +205,9 @@ public class AccountFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 Uri downloadUri = task.getResult();
                                 coverImage = downloadUri.toString();
+
                                 databaseRef.child(user).child("coverImage").setValue(coverImage);
+
                                 Toast.makeText(getContext(), "Profile Updated",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -205,5 +217,26 @@ public class AccountFragment extends Fragment {
             }
         });
 
+    }
+
+    private void deleteAccount(){
+
+        FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(mFirebaseUser != null){
+
+            mFirebaseUser.delete()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "isSuccessfull");
+                                Toast.makeText(getContext(), "Account Deleted!",
+                                        Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getActivity(), LoginOptions.class));
+                            }
+                        }
+                    });
+        }
     }
 }
